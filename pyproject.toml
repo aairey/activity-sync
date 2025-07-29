@@ -1,0 +1,48 @@
+[project]
+name = "activity-sync"
+version = "0.1.0"
+description = "Sync Strava GPX activities to Nextcloud using strava2gpx and Nextcloud API."
+authors = [{ name = "Andy Airey", email = "airey.andy@gmail.com" }]
+requires-python = ">=3.13"
+dependencies = [
+    "nextcloud-api-wrapper>=0.2.0",
+    "python-dotenv>=1.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "flake8>=7.0.0",
+    "isort>=5.13.2",
+    "ruff>=0.1.0",
+    "pylint>=3.0.0",
+    "black>=24.0.0"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["activity_sync", "activity_sync.strava2gpx"]
+package-data = { "activity_sync" = ["py.typed"] }
+
+[tool.black]
+line-length = 120
+target-version = ['py313']
+include = '\.pyi?$'
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.pylint]
+line_length = 120
