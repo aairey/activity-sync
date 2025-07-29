@@ -21,5 +21,5 @@ RUN pip install --upgrade pip && \
 # Set environment variables (can be overridden at runtime)
 ENV PYTHONUNBUFFERED=1
 
-# Entrypoint: run the sync script in an infinite loop with error handling
-CMD ["uv", "run", "python", "-m", "activity_sync_service"]
+# Entrypoint: run the sync daemon
+CMD ["uv", "run", "python", "-m", "activity_sync.sync_daemon"]

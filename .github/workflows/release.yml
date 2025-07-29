@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install uv and dependencies
+        run: |
+          # Install uv
+          curl -sSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          
+          # Install build dependencies
+          uv pip install --upgrade pip setuptools wheel
+          
+          # Install semantic-release and its plugins
+          uv pip install semantic-release semantic-release-pypi semantic-release-github-actions
+
+      - name: Run semantic-release
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          semantic-release publish -v DEBUG \
+            --tag-format 'v${version}' \
+            --branches main \
+            --repository-url https://github.com/aairey/activity-sync.git
+
+      - name: Get the version
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: get_version
+        run: |
+          echo "version=$(git describe --tags --abbrev=0 | sed 's/^v//')" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image to GHCR
+        if: steps.semantic.outputs.new_release_published == 'true'
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Login to GitHub Container Registry
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          
+          # Build and tag the Docker image
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/activity-sync
+          docker build -t $IMAGE_NAME:latest .
+          docker tag $IMAGE_NAME:latest $IMAGE_NAME:v${{ steps.get_version.outputs.version }}
+          
+          # Push the Docker image
+          docker push $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:v${{ steps.get_version.outputs.version }}

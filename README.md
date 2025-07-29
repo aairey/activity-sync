@@ -4,7 +4,7 @@ A tool to synchronize your Strava activities' GPX data with your Nextcloud file 
 
 ## Prerequisites
 
-- Python 3.7+
+- Python 3.13+
 - Strava API credentials
 - Nextcloud server access
 
