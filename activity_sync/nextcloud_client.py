@@ -39,7 +39,6 @@ class NextcloudClient:
             endpoint=self.url,
             user=self.username,
             password=self.password,
-            json_output=True,
         )
 
     def load_synced_ids(self) -> Set[str]:

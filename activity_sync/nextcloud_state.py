@@ -46,7 +46,6 @@ class SyncedActivitiesStore:
                 endpoint=self.nextcloud_url,
                 user=self.username,
                 password=self.password,
-                json_output=True,
             )
             file_obj = nc.get_file(self.remote_path)
             content = file_obj.fetch_file_content()
@@ -69,7 +68,6 @@ class SyncedActivitiesStore:
                 endpoint=self.nextcloud_url,
                 user=self.username,
                 password=self.password,
-                json_output=True,
             )
             nc.upload_file(self.local_temp, self.remote_path)
             logger.info(f"Uploaded synced_activities.json to Nextcloud: {self.remote_path}")

@@ -10,12 +10,18 @@ A tool to synchronize your Strava activities' GPX data with your Nextcloud file 
 
 ## Installation
 
-1. Install dependencies using [uv](https://github.com/astral-sh/uv):
+1. Create a Strava application and get your API credentials:
+   - Go to [Strava Developer Portal](https://www.strava.com/settings/api)
+   - Create a new application
+   - Get your `Client ID` and `Client Secret`
+   - Generate a `Refresh Token` using the Strava API (see [Strava API documentation](https://developers.strava.com/docs/authentication/))
+
+2. Install dependencies using [uv](https://github.com/astral-sh/uv):
 ```bash
 uv pip install -r pyproject.toml
 ```
 
-2. Create a `.env` file in the same directory as the script and add your credentials:
+3. Create a `.env` file in the same directory as the script and add your credentials:
 ```
 STRAVA_CLIENT_ID=your_client_id
 STRAVA_REFRESH_TOKEN=your_refresh_token
