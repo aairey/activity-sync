@@ -45,8 +45,8 @@ jobs:
           # Install build dependencies
           uv pip install --upgrade pip setuptools wheel
           
-          # Install semantic-release
-          uv pip install semantic-release
+          # Install python-semantic-release
+          uv pip install python-semantic-release
 
       - name: Run semantic-release
         id: semantic
@@ -55,9 +55,8 @@ jobs:
         run: |
           source .venv/bin/activate
           semantic-release publish -v DEBUG \
-            --tag-format 'v${version}' \
-            --branches main \
-            --repository-url https://github.com/aairey/activity-sync.git
+            --tag-format 'v{version}' \
+            --branch main
 
       - name: Get the version
         if: steps.semantic.outputs.new_release_published == 'true'
