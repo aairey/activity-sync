@@ -17,21 +17,25 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
-      - name: Install uv and dependencies
+      - name: Install uv
         run: |
-          # Install uv
-          curl -sSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          # Install uv using pipx for better isolation
+          python -m pip install --user pipx
+          python -m pipx ensurepath
+          pipx install uv
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
           
+      - name: Install dependencies
+        run: |
           # Install build dependencies
           uv pip install --upgrade pip setuptools wheel
           
