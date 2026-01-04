@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.1.1 (2026-01-04)
+
+### Bug Fixes
+
+- **docker**: Optimize Dockerfile to cache dependencies and use uv consistently
+  ([`039dd74`](https://github.com/aairey/activity-sync/commit/039dd74218c5159922d019fc5f71fc014af192c2))
+
+
 ## v0.1.0 (2026-01-04)
 
 ### Features
