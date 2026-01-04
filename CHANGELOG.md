@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.1.0 (2026-01-04)
+
+### Features
+
+- **ci**: Improve docker image publishing to ghcr with version output
+  ([`41cb9c1`](https://github.com/aairey/activity-sync/commit/41cb9c14c0ed7642b145bcfd7f8725ebc04c7445))
+
+
 ## v0.0.2 (2026-01-04)
 
 ### Bug Fixes
