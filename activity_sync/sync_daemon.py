@@ -7,6 +7,8 @@ import logging
 import os
 import signal
 
+from aiohttp import ClientResponseError
+
 from .config import SyncConfig
 from .syncer import StravaNextcloudSync
 
@@ -60,6 +62,11 @@ async def main():
     while RUNNING:
         try:
             await syncer.sync_activities()
+        except ClientResponseError as e:
+            if e.status == 429:
+                logger.error(f"Error during sync: {e.status}, message='{e.message}'")
+            else:
+                logger.error(f"Error during sync: {e}", exc_info=True)
         except Exception as e:
             logger.error(f"Error during sync: {e}", exc_info=True)
 
