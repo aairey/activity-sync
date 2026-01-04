@@ -54,9 +54,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           source .venv/bin/activate
-          semantic-release publish -v DEBUG \
-            --tag-format 'v{version}' \
-            --branch main
+          semantic-release version
 
       - name: Get the version
         if: steps.semantic.outputs.new_release_published == 'true'
