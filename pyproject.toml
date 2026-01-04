@@ -19,7 +19,8 @@ dev = [
     "isort>=5.13.2",
     "ruff>=0.8.0",
     "pylint>=3.3.0",
-    "black>=24.10.0"
+    "black>=24.10.0",
+    "python-semantic-release>=10.5.0"
 ]
 
 [build-system]
@@ -48,3 +49,17 @@ line_length = 120
 
 [tool.pylint]
 line_length = 120
+
+[tool.semantic_release]
+version_variable = "pyproject.toml:project.version"
+version_pattern = "version = \"{version}\""
+tag_format = "v{version}"
+branch = "main"
+upload_to_pypi = false
+upload_to_release = true
+changelog_file = "CHANGELOG.md"
+commit_parser = "conventional"
+allow_zero_version = true
+prerelease_token = "rc"
+prerelease = false
+hvcs = "github"
